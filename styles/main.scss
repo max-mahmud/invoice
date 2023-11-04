@@ -12,3 +12,16 @@ body{
   position: relative;
   min-height: 100vh;
 }
+.invoiceCta{
+  min-height: 150vh;
+  background-image: url("../public/demo.jpg");
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.feature-icon svg{
+  background-color: rgb(4, 163, 71);
+  width: 35px;
+  height:35px;
+}
