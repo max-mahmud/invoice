@@ -3,7 +3,7 @@ import ThemeLink from "./ThemeLink";
 
 const Navbar = () => {
   return (
-    <nav className="bg-violet-600 p-3 fixed w-full shadow">
+    <nav className="bg-violet-600 py-[6px] fixed w-full shadow">
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
           <Link href="/" className="text-white text-3xl font-bold">
@@ -20,7 +20,7 @@ const Navbar = () => {
               <Link href="/">Free Tools</Link>
             </li>
           </ul>
-          <ul className="flex space-x-4 text-white">
+          <ul className="flex items-center space-x-4 text-white">
             <li>
               <ThemeLink name={"Login"} toLink="/" color="n" />
             </li>
