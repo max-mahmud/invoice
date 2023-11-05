@@ -1,10 +1,46 @@
 "use client";
 import FormPreview from "@/components/FormPreview";
+import FormTable from "@/components/FormTable";
 import React, { useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 
 const NewInvoice = () => {
+  const [tableData, setTableData] = useState([]);
   const [preview, setPreview] = useState(false);
+  const [formData, setFormData] = useState({
+    companyName: "",
+    invoiceAuthor: "",
+    companyAddress: "",
+    companyCity: "",
+    companyCountry: "",
+    clientCompany: "",
+    clientAddress: "",
+    clientCity: "",
+    clientCountry: "",
+    invoiceNumber: "",
+    invoiceDate: "",
+    invoiceDueDate: "",
+    terms: "",
+    notes: "",
+  });
+  const updateTableData = (newTableData) => {
+    setTableData(newTableData);
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  function handleFormSubmit(e) {
+    e.preventDefault();
+   // Combine tableData with other form data
+   const combinedData = {
+    ...formData,
+    tableData,
+  };
+    setPreview(!preview);
+
+  }
+  
   return (
     <div className="pt-14 bg-slate-100 ">
       <div className="min-h-screen  container mx-auto">
@@ -34,13 +70,12 @@ const NewInvoice = () => {
             </button>
           </div>
         </div>
-        {/* Invoice Form */}
-        {/* Preview */}
+        {/* Invoice Form & Preview  */}
         {preview ? (
-          <FormPreview />
+          <FormPreview data={formData} />
         ) : (
           <div className="pb-10">
-            <form className="bg-white w-[70vw]  mx-auto min-h-screen">
+            <form onSubmit={handleFormSubmit} className="bg-white w-[65vw]  mx-auto min-h-screen">
               <div className="flex justify-between items-center gap-10 p-8 ">
                 <div className="flex items-center justify-center w-[22%] mb-5 ">
                   <label
@@ -52,7 +87,7 @@ const NewInvoice = () => {
                       <p className="mb-2 text-sm text-gray-700">
                         <span className="font-semibold">Click to upload</span>
                       </p>
-                      <p className="text-xs text-gray-700">PNG or JPG (MAX. 240x240px)</p>
+                      <p className="text-xs text-gray-700 text-center">PNG or JPG (MAX. 240x240px)</p>
                     </div>
                     <input id="dropzone-file" type="file" className="hidden" />
                   </label>
@@ -66,53 +101,62 @@ const NewInvoice = () => {
                 <div className=" z-0 w-full mb-1">
                   <input
                     type="text"
-                    name="floating_first_name"
-                    id="floating_first_name"
-                    className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none  focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                    name="companyName"
+                    id="companyName"
+                    className="custom_input peer focus:outline-none"
                     placeholder="Your Company"
+                    onChange={handleInputChange}
+                    value={formData.companyName}
                     required
                   />
                 </div>
                 <div className=" z-0 w-full mb-1">
                   <input
                     type="text"
-                    name="floating_last_name"
-                    id="floating_last_name"
-                    className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                    name="invoiceAuthor"
+                    id="invoiceAuthor"
+                    className="custom_input peer focus:outline-none"
                     placeholder="Your Name "
                     required
+                    onChange={handleInputChange}
+                    value={formData.invoiceAuthor}
                   />
                 </div>
 
                 <div className=" z-0 w-full mb-1">
                   <input
                     type="tel"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    name="floating_phone"
-                    id="floating_phone"
-                    className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                    name="companyAddress"
+                    id="companyAddress"
+                    className="custom_input peer focus:outline-none"
                     placeholder="Company Address "
                     required
+                    onChange={handleInputChange}
+                    value={formData.companyAddress}
                   />
                 </div>
                 <div className=" z-0 w-full mb-1">
                   <input
                     type="text"
-                    name="floating_company"
-                    id="floating_company"
-                    className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                    name="companyCity"
+                    id="companyCity"
+                    className="custom_input peer focus:outline-none"
                     placeholder="City, State, Zip "
                     required
+                    onChange={handleInputChange}
+                    value={formData.companyCity}
                   />
                 </div>
                 <div className=" z-0 w-full mb-1">
                   <input
                     type="text"
-                    name="country"
-                    id="country"
-                    className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                    name="companyCountry"
+                    id="companyCountry"
+                    className="custom_input peer focus:outline-none"
                     placeholder="Country eg USA"
                     required
+                    onChange={handleInputChange}
+                    value={formData.companyCountry}
                   />
                 </div>
               </div>
@@ -123,88 +167,104 @@ const NewInvoice = () => {
                   <div className=" w-full mb-1">
                     <input
                       type="text"
-                      name="clients_company"
-                      id="clients_company"
-                      className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                      name="clientCompany"
+                      id="clientCompany"
+                      className="custom_input peer focus:outline-none"
                       placeholder="Your Clients Company "
                       required
+                      onChange={handleInputChange}
+                      value={formData.clientCompany}
                     />
                   </div>
 
                   <div className=" z-0 w-full mb-1">
                     <input
                       type="tel"
-                      pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                      name="clients_address"
-                      id="clients_address"
-                      className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+
+                      name="clientAddress"
+                      id="clientAddress"
+                      className="custom_input peer focus:outline-none"
                       placeholder="Clients Address "
                       required
+                      onChange={handleInputChange}
+                      value={formData.clientAddress}
                     />
                   </div>
                   <div className=" z-0 w-full mb-1">
                     <input
                       type="text"
-                      name="city_state"
-                      id="city_state"
-                      className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                      name="clientCity"
+                      id="clientCity"
+                      className="custom_input peer focus:outline-none"
                       placeholder="City, State, Zip "
                       required
+                      onChange={handleInputChange}
+                      value={formData.clientCity}
                     />
                   </div>
                   <div className=" z-0 w-full mb-1">
                     <input
                       type="text"
-                      name="clients_country"
-                      id="clients_country"
-                      className="block py-2 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                      name="clientCountry"
+                      id="clientCountry"
+                      className="custom_input peer focus:outline-none"
                       placeholder="Country eg USA"
                       required
+                      onChange={handleInputChange}
+                      value={formData.clientCountry}
                     />
                   </div>
                 </div>
                 <div className="w-full">
                   <div className=" flex gap-4 items-center  w-full mb-1">
-                    <label htmlFor="invoice_No" className="font-medium px-1 w-[30%] ">
+                    <label htmlFor="invoiceNumber" className="font-medium px-1 w-[30%] ">
                       Invoice #
                     </label>
                     <input
                       type="text"
-                      name="invoice_No"
-                      id="invoice_No"
-                      className="block py-2 px-0  text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none  focus:outline-none focus:ring-0 focus:border-sky-300 peer"
-                      placeholder="Your Company"
+                      name="invoiceNumber"
+                      id="invoiceNumber"
+                      className="block py-2 px-0 text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none focus:ring-0 focus:border-sky-300 focus:outline-none"
+                      placeholder="INV-147"
                       required
+                      onChange={handleInputChange}
+                      value={formData.invoiceNumber}
                     />
                   </div>
                   <div className=" flex gap-4 items-center  w-full mb-1">
-                    <label htmlFor="invoice_Date" className="font-medium px-1 w-[30%] ">
+                    <label htmlFor="invoiceDate" className="font-medium px-1 w-[30%] ">
                       Invoice Date
                     </label>
                     <input
                       type="date"
-                      name="invoice_date"
-                      id="invoice_date"
-                      className="block py-2 px-0 text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                      name="invoiceDate"
+                      id="invoiceDate"
+                      className=""
                       placeholder=""
                       required
+                      onChange={handleInputChange}
+                      value={formData.invoiceDate}
                     />
                   </div>
                   <div className=" flex gap-4 items-center  w-full mb-1">
-                    <label htmlFor="invoice_due_date" className="font-medium px-1 w-[30%] ">
+                    <label htmlFor="invoiceDueDate" className="font-medium px-1 w-[30%] ">
                       Due Date
                     </label>
                     <input
                       type="date"
-                      name="invoice_due_date"
-                      id="invoice_due_date"
-                      className="block py-2 px-0 text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none    focus:outline-none focus:ring-0 focus:border-sky-300 peer"
+                      name="invoiceDueDate"
+                      id="invoiceDueDate"
+                      className=""
                       placeholder=" "
                       required
+                      onChange={handleInputChange}
+                      value={formData.invoiceDueDate}
                     />
                   </div>
                 </div>
               </div>
+              <FormTable updateTableData={updateTableData}/>
+              <button type="submit" onClick={()=>setPreview(true)} className="px-6 py-2 ml-8 my-2 bg-violet-500 hover:bg-violet-600 text-white rounded">Create Invoice</button>
             </form>
           </div>
         )}

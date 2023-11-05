@@ -3,7 +3,7 @@ import ThemeLink from "./ThemeLink";
 
 const Navbar = () => {
   return (
-    <nav className="bg-violet-600 py-[6px] fixed w-full shadow">
+    <nav className="bg-violet-600 py-[6px] fixed w-full shadow z-50">
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
           <Link href="/" className="text-white text-3xl font-bold">
