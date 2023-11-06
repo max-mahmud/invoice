@@ -1,25 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineCloseCircle, AiOutlinePlus } from "react-icons/ai";
 
-const FormTable = ({updateTableData}) => {
-  const [tableData, setTableData] = useState([
-    {
-      itemDescription: "",
-      qty: "",
-      unitPrice: "",
-      tax: "",
-      amount: "",
-    },
-    {
-      itemDescription: "",
-      qty: "",
-      unitPrice: "",
-      tax: "",
-      amount: "",
-    },
-  ]);
-
+const FormTable = ({ prevData, updateTableData }) => {
+  const [tableData, setTableData] = useState(prevData);
+  console.log(prevData);
   const addRow = () => {
     setTableData([
       ...tableData,
@@ -34,21 +19,21 @@ const FormTable = ({updateTableData}) => {
   };
 
   const handleInputChange = (index, e) => {
-    const {name, value} = e.target
-    const updatedData = [...tableData]
-    updatedData[index][name]=value
+    const { name, value } = e.target;
+    const updatedData = [...tableData];
+    updatedData[index][name] = value;
 
-    if(name=="qty" || name=="unitPrice"){
-        const qty = parseFloat(updatedData[index].qty);
-        const price = parseFloat(updatedData[index].unitPrice);
-        if (!isNaN(qty) && !isNaN(price)) {
-            updatedData[index].amount = (qty * price).toFixed(2);
-          } else {
-            updatedData[index].amount = "";
-          }
+    if (name == "qty" || name == "unitPrice") {
+      const qty = parseFloat(updatedData[index].qty);
+      const price = parseFloat(updatedData[index].unitPrice);
+      if (!isNaN(qty) && !isNaN(price)) {
+        updatedData[index].amount = (qty * price).toFixed(2);
+      } else {
+        updatedData[index].amount = "";
+      }
     }
 
-    setTableData(updatedData)
+    setTableData(updatedData);
     updateTableData(updatedData);
   };
 
@@ -56,6 +41,7 @@ const FormTable = ({updateTableData}) => {
     const updatedData = [...tableData];
     updatedData.splice(index, 1);
     setTableData(updatedData);
+    updateTableData(updatedData);
   };
 
   return (
@@ -147,14 +133,14 @@ const FormTable = ({updateTableData}) => {
             ))}
           </tbody>
         </table>
-        <button
+        <span
           onClick={addRow}
           type="button"
           className="my-3 flex items-center space-x-2 text-purple-600 font-bold"
         >
           <AiOutlinePlus className="text-base" />
-          <span>Add line item</span>
-        </button>
+          <span className="cursor-pointer">Add line item</span>
+        </span>
       </div>
     </div>
   );

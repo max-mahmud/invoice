@@ -3,9 +3,20 @@ import FormPreview from "@/components/FormPreview";
 import FormTable from "@/components/FormTable";
 import React, { useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { CldUploadButton, CldImage } from "next-cloudinary";
 
 const NewInvoice = () => {
-  const [tableData, setTableData] = useState([]);
+  const [logoUrl, setlogoUrl] = useState("");
+  const [tableData, setTableData] = useState([
+    {
+      itemDescription: "",
+      qty: "",
+      unitPrice: "",
+      tax: "",
+      amount: "",
+    },
+  ]);
+  const [combineData, setCombineDate] = useState({});
   const [preview, setPreview] = useState(false);
   const [formData, setFormData] = useState({
     companyName: "",
@@ -32,15 +43,16 @@ const NewInvoice = () => {
   };
   function handleFormSubmit(e) {
     e.preventDefault();
-   // Combine tableData with other form data
-   const combinedData = {
-    ...formData,
-    tableData,
-  };
+    // Combine tableData with other form data
+    const allFormData = {
+      ...formData,
+      logoUrl,
+      tableData,
+    };
+    setCombineDate(allFormData);
     setPreview(!preview);
-
   }
-  
+
   return (
     <div className="pt-14 bg-slate-100 ">
       <div className="min-h-screen  container mx-auto">
@@ -72,25 +84,33 @@ const NewInvoice = () => {
         </div>
         {/* Invoice Form & Preview  */}
         {preview ? (
-          <FormPreview data={formData} />
+          <FormPreview data={combineData} />
         ) : (
           <div className="pb-10">
             <form onSubmit={handleFormSubmit} className="bg-white w-[65vw]  mx-auto min-h-screen">
               <div className="flex justify-between items-center gap-10 p-8 ">
                 <div className="flex items-center justify-center w-[22%] mb-5 ">
-                  <label
-                    htmlFor="dropzone-file"
-                    className="flex flex-col items-center justify-center w-full h-36 border-2 border-slate-200  border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 "
-                  >
-                    <div className="flex flex-col items-center justify-center pt-2 pb-3">
-                      <AiOutlineCloudUpload className="text-sky-400 text-4xl" />
-                      <p className="mb-2 text-sm text-gray-700">
-                        <span className="font-semibold">Click to upload</span>
-                      </p>
-                      <p className="text-xs text-gray-700 text-center">PNG or JPG (MAX. 240x240px)</p>
-                    </div>
-                    <input id="dropzone-file" type="file" className="hidden" />
-                  </label>
+                  {logoUrl ? (
+                    <CldImage width="240" height="240" src={logoUrl} alt="Description of my image" />
+                  ) : (
+                    <label
+                      htmlFor="inv-file"
+                      className="flex flex-col items-center justify-center w-full h-36 border-2 border-slate-200  border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 "
+                    >
+                      <div className="flex flex-col items-center justify-center pt-2 pb-3">
+                        <AiOutlineCloudUpload className="text-sky-400 text-4xl" />
+                        <p className="mb-2 text-sm text-gray-700">
+                          <CldUploadButton
+                            id="inv-file"
+                            onUpload={(data) => setlogoUrl(data.info.secure_url)}
+                            className=" py-2 px-6"
+                            uploadPreset="invoicepreset"
+                          />
+                        </p>
+                        <p className="text-xs text-gray-700 text-center">PNG or JPG (MAX. 240x240px)</p>
+                      </div>
+                    </label>
+                  )}
                 </div>
                 <div>
                   <h3 className="text-5xl upperCase font-medium">Invoice</h3>
@@ -107,7 +127,6 @@ const NewInvoice = () => {
                     placeholder="Your Company"
                     onChange={handleInputChange}
                     value={formData.companyName}
-                    required
                   />
                 </div>
                 <div className=" z-0 w-full mb-1">
@@ -117,7 +136,6 @@ const NewInvoice = () => {
                     id="invoiceAuthor"
                     className="custom_input peer focus:outline-none"
                     placeholder="Your Name "
-                    required
                     onChange={handleInputChange}
                     value={formData.invoiceAuthor}
                   />
@@ -130,7 +148,6 @@ const NewInvoice = () => {
                     id="companyAddress"
                     className="custom_input peer focus:outline-none"
                     placeholder="Company Address "
-                    required
                     onChange={handleInputChange}
                     value={formData.companyAddress}
                   />
@@ -142,7 +159,6 @@ const NewInvoice = () => {
                     id="companyCity"
                     className="custom_input peer focus:outline-none"
                     placeholder="City, State, Zip "
-                    required
                     onChange={handleInputChange}
                     value={formData.companyCity}
                   />
@@ -154,7 +170,6 @@ const NewInvoice = () => {
                     id="companyCountry"
                     className="custom_input peer focus:outline-none"
                     placeholder="Country eg USA"
-                    required
                     onChange={handleInputChange}
                     value={formData.companyCountry}
                   />
@@ -171,7 +186,6 @@ const NewInvoice = () => {
                       id="clientCompany"
                       className="custom_input peer focus:outline-none"
                       placeholder="Your Clients Company "
-                      required
                       onChange={handleInputChange}
                       value={formData.clientCompany}
                     />
@@ -180,12 +194,10 @@ const NewInvoice = () => {
                   <div className=" z-0 w-full mb-1">
                     <input
                       type="tel"
-
                       name="clientAddress"
                       id="clientAddress"
                       className="custom_input peer focus:outline-none"
                       placeholder="Clients Address "
-                      required
                       onChange={handleInputChange}
                       value={formData.clientAddress}
                     />
@@ -197,7 +209,6 @@ const NewInvoice = () => {
                       id="clientCity"
                       className="custom_input peer focus:outline-none"
                       placeholder="City, State, Zip "
-                      required
                       onChange={handleInputChange}
                       value={formData.clientCity}
                     />
@@ -209,7 +220,6 @@ const NewInvoice = () => {
                       id="clientCountry"
                       className="custom_input peer focus:outline-none"
                       placeholder="Country eg USA"
-                      required
                       onChange={handleInputChange}
                       value={formData.clientCountry}
                     />
@@ -226,7 +236,6 @@ const NewInvoice = () => {
                       id="invoiceNumber"
                       className="block py-2 px-0 text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none focus:ring-0 focus:border-sky-300 focus:outline-none"
                       placeholder="INV-147"
-                      required
                       onChange={handleInputChange}
                       value={formData.invoiceNumber}
                     />
@@ -241,7 +250,6 @@ const NewInvoice = () => {
                       id="invoiceDate"
                       className=""
                       placeholder=""
-                      required
                       onChange={handleInputChange}
                       value={formData.invoiceDate}
                     />
@@ -256,15 +264,19 @@ const NewInvoice = () => {
                       id="invoiceDueDate"
                       className=""
                       placeholder=" "
-                      required
                       onChange={handleInputChange}
                       value={formData.invoiceDueDate}
                     />
                   </div>
                 </div>
               </div>
-              <FormTable updateTableData={updateTableData}/>
-              <button type="submit" onClick={()=>setPreview(true)} className="px-6 py-2 ml-8 my-2 bg-violet-500 hover:bg-violet-600 text-white rounded">Create Invoice</button>
+              <FormTable prevData={tableData} updateTableData={updateTableData} />
+              <button
+                type="submit"
+                className="px-6 py-2 ml-8 my-2 bg-violet-500 hover:bg-violet-600 text-white rounded"
+              >
+                Create Invoice
+              </button>
             </form>
           </div>
         )}
