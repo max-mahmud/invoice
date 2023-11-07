@@ -1,13 +1,21 @@
 "use client";
 import FormPreview from "@/components/FormPreview";
 import FormTable from "@/components/FormTable";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { CldUploadButton, CldImage } from "next-cloudinary";
+import { useReactToPrint } from "react-to-print";
 
 const NewInvoice = () => {
   const [logoUrl, setlogoUrl] = useState("");
   const [tableData, setTableData] = useState([
+    {
+      itemDescription: "",
+      qty: "",
+      unitPrice: "",
+      tax: "",
+      amount: "",
+    },
     {
       itemDescription: "",
       qty: "",
@@ -53,6 +61,11 @@ const NewInvoice = () => {
     setPreview(!preview);
   }
 
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
     <div className="pt-14 bg-slate-100 ">
       <div className="min-h-screen  container mx-auto">
@@ -65,11 +78,11 @@ const NewInvoice = () => {
             >
               {preview ? "Edit Form" : "Preview"}
             </button>
-            <button className="px-4 py-1 bg-slate-100 border-2 border-sky-300 shadow-md text-slate-500 hover:text-sky-500">
-              Print
-            </button>
-            <button className="px-4 py-1 bg-slate-100 border-2 border-sky-300 shadow-md text-slate-500 hover:text-sky-500">
-              Download
+            <button
+              onClick={handlePrint}
+              className="px-4 py-1 bg-slate-100 border-2 border-sky-300 shadow-md text-slate-500 hover:text-sky-500"
+            >
+              Print / Download
             </button>
           </div>
           <div className="flex gap-3">
@@ -84,7 +97,9 @@ const NewInvoice = () => {
         </div>
         {/* Invoice Form & Preview  */}
         {preview ? (
-          <FormPreview data={combineData} />
+          <div ref={componentRef}>
+            <FormPreview data={combineData} />
+          </div>
         ) : (
           <div className="pb-10">
             <form onSubmit={handleFormSubmit} className="bg-white w-[65vw]  mx-auto min-h-screen">

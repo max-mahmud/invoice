@@ -1,4 +1,3 @@
-import React from "react";
 import TablePreview from "./TablePreview";
 import { CldImage } from "next-cloudinary";
 
@@ -117,7 +116,7 @@ const FormPreview = ({ data }) => {
         <h2 className="text-sm">
           Powered by{" "}
           <a className="font-bold text-pink-600" href="#">
-            Desishub
+            CNPI
           </a>
         </h2>
       </div>
