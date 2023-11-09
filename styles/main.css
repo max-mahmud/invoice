@@ -1,18 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
-body{
+body {
   position: relative;
   min-height: 100vh;
 }
-.invoiceCta{
+
+.invoiceCta {
   min-height: 150vh;
   background-image: url("../public/demo.jpg");
   width: 100%;
@@ -20,22 +20,27 @@ body{
   background-repeat: no-repeat;
   background-size: contain;
 }
-.feature-icon svg{
+
+.feature-icon svg {
   background-color: rgb(4, 163, 71);
   width: 35px;
-  height:35px;
+  height: 35px;
 }
-.custom_input{
+
+.custom_input {
   display: block;
-    padding: 8px 0;
-    width: 100%;
-    font-size: 14px;
-    color: rgb(45, 45, 46);
-    background-color: transparent;
-    border: 0;
-    appearance: none;
-    border-bottom: 2px rgb(248, 246, 246) solid;
-  }
-    .custom_input:focus {
-      border-bottom: 2px solid gray;
-    }
+  padding: 8px 0;
+  width: 100%;
+  font-size: 14px;
+  color: rgb(45, 45, 46);
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-bottom: 2px rgb(248, 246, 246) solid;
+}
+
+.custom_input:focus {
+  border-bottom: 2px solid gray;
+}/*# sourceMappingURL=main.css.map */

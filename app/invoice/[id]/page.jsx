@@ -1,6 +1,5 @@
-"use client";
 import { getInvoiceById } from "@/app/libs/getInvoiceById";
-import FormPreview from "@/components/FormPreview";
+import Unique from "@/components/Unique";
 
 export default async function InvoicePage({ params: { id } }) {
   const invoice = await getInvoiceById(id);
@@ -8,8 +7,7 @@ export default async function InvoicePage({ params: { id } }) {
 
   return (
     <div className="pt-16">
-      <div className=""></div>
-      <FormPreview data={invoice} />
+      <Unique invoice={invoice} />
     </div>
   );
 }

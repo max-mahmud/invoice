@@ -6,8 +6,13 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { CldUploadButton, CldImage } from "next-cloudinary";
 import { useReactToPrint } from "react-to-print";
 import { toast } from "react-toastify";
+import "../../../styles/custom.css";
+import { useSession } from "next-auth/react";
+import ThemeLink from "@/components/ThemeLink";
+import Loading from "@/app/loading";
 
 const NewInvoice = () => {
+  const { data: session, status } = useSession();
   const [logoUrl, setlogoUrl] = useState("");
   const [tableData, setTableData] = useState([
     {
@@ -54,14 +59,15 @@ const NewInvoice = () => {
   async function handleFormSubmit(e) {
     e.preventDefault();
     // Combine tableData with other form data
+    const userId = await session?.user?.email;
     const allFormData = {
       ...formData,
       logoUrl,
+      userId,
       tableData,
     };
 
     try {
-      //  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       setLoading(true);
       const response = await fetch(`http://localhost:3000/api/invoice`, {
         method: "POST",
@@ -69,7 +75,7 @@ const NewInvoice = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          invoiceData: { ...formData, logoUrl },
+          invoiceData: { ...formData, logoUrl, userId },
           tableData,
         }),
       });
@@ -77,7 +83,6 @@ const NewInvoice = () => {
       // console.log(createdInvoice,);
       setLoading(false);
       toast.success("Invoice Created");
-      router.push("/invoice");
       setPreview(!preview);
     } catch (error) {
       setLoading(false);
@@ -93,34 +98,39 @@ const NewInvoice = () => {
     content: () => componentRef.current,
   });
 
+  if (status === "loading") {
+    return <Loading />;
+  }
+  if (status === "unauthenticated") {
+    return (
+      <div className="gap-8 flex items-center h-screen justify-center flex-col">
+        <h2 className="md:text-4xl text-2xl">Please Login to be able to create your first Invoice</h2>
+        <ThemeLink
+          className="bg-rose-600 hover:bg-rose-700 focus:ring-rose-300"
+          name="Click here to Login to your Account"
+          toLink="/login"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="pt-14 bg-slate-100 ">
       <div className="min-h-screen  container mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center py-7">
-          <div className="flex gap-3">
-            <button
-              onClick={() => setPreview(!preview)}
-              className="px-4 py-1 bg-slate-100 border-2 border-sky-300 shadow-md text-slate-500 hover:text-sky-500"
-            >
-              {preview ? "Edit Form" : "Preview"}
-            </button>
-            <button
-              onClick={handlePrint}
-              className="px-4 py-1 bg-slate-100 border-2 border-sky-300 shadow-md text-slate-500 hover:text-sky-500"
-            >
-              Print / Download
-            </button>
-          </div>
-          <div className="flex gap-3">
-            {" "}
-            <button className="px-4 py-1 bg-slate-100 border-2 border-violet-300 shadow-md text-slate-500 hover:text-violet-500">
-              Save Online
-            </button>
-            <button className="px-4 py-1 bg-slate-100 border-2 border-violet-300 shadow-md text-slate-500 hover:text-violet-500">
-              Send
-            </button>
-          </div>
+        <div className="flex justify-between items-center py-6">
+          <button
+            onClick={() => setPreview(!preview)}
+            className="px-4 py-1 bg-slate-100 border-2 border-violet-400 shadow-md text-slate-500 hover:text-violet-400"
+          >
+            {preview ? "Edit Form" : "Preview"}
+          </button>
+          <button
+            onClick={handlePrint}
+            className="px-4 py-1 bg-slate-100 border-2 border-violet-400 shadow-md text-slate-500 hover:text-violet-400"
+          >
+            Print / Download
+          </button>
         </div>
         {/* Invoice Form & Preview  */}
         {preview ? (
@@ -140,7 +150,7 @@ const NewInvoice = () => {
                       className="flex flex-col items-center justify-center w-full h-36 border-2 border-slate-200  border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 "
                     >
                       <div className="flex flex-col items-center justify-center pt-2 pb-3">
-                        <AiOutlineCloudUpload className="text-sky-400 text-4xl" />
+                        <AiOutlineCloudUpload className="text-violet-400 text-4xl" />
                         <p className="mb-2 text-sm text-gray-700">
                           <CldUploadButton
                             id="inv-file"
@@ -276,7 +286,7 @@ const NewInvoice = () => {
                       type="text"
                       name="invoiceNumber"
                       id="invoiceNumber"
-                      className="block py-2 px-0 text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none focus:ring-0 focus:border-sky-300 focus:outline-none"
+                      className="block py-2 px-0 text-sm text-gray-700 bg-transparent border-0 border-b-2 border-white appearance-none focus:ring-0 focus:border-gray-600 focus:outline-none"
                       placeholder="INV-147"
                       onChange={handleInputChange}
                       value={formData.invoiceNumber}
