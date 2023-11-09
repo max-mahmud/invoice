@@ -1,83 +1,72 @@
-import React from "react";
-import { RxCross1 } from "react-icons/rx";
+import { BsCurrencyDollar, BsFillGrid1X2Fill } from "react-icons/bs";
 import ThemeLink from "./ThemeLink";
-
-const Features = () => {
-  let allFeatures = [
+export default function Features() {
+  const features = [
     {
-      icon: <RxCross1 />,
+      icon: BsCurrencyDollar,
       title: "Easy Tax Invoice",
-      des: "Create, manage, send, and track tax invoices without any hassle.",
+      description: "Create, manage, send and track tax invoices without any hassle.",
     },
     {
-      icon: <RxCross1 />,
-      title: "Easy Tax Invoice",
-      des: "Create, manage, send, and track tax invoices without any hassle.",
+      icon: BsFillGrid1X2Fill,
+      title: "Customization of Columns",
+      description: "Customizable invoice format to add more relevant information and columns.",
     },
     {
-      icon: <RxCross1 />,
-      title: "Easy Tax Invoice",
-      des: "Create, manage, send, and track tax invoices without any hassle.",
+      icon: BsCurrencyDollar,
+      title: "Brand Your Invoice",
+      description:
+        "Easily add the business logo and change the color of the invoice with one click. No Watermark. No Ads",
     },
     {
-      icon: <RxCross1 />,
-      title: "Easy Tax Invoice",
-      des: "Create, manage, send, and track tax invoices without any hassle.",
+      icon: BsCurrencyDollar,
+      title: "Invoice Templates",
+      description: "Beautifully designed and fully customizable invoice templates with magic color feature.",
     },
     {
-      icon: <RxCross1 />,
-      title: "Easy Tax Invoice",
-      des: "Create, manage, send, and track tax invoices without any hassle.",
+      icon: BsCurrencyDollar,
+      title: "Email & Track Invoices",
+      description: "Send invoice via email and get to know when the invoice was opened.",
     },
     {
-      icon: <RxCross1 />,
-      title: "Easy Tax Invoice",
-      des: "Create, manage, send, and track tax invoices without any hassle.",
+      icon: BsCurrencyDollar,
+      title: "Recurring Invoices",
+      description:
+        "Refrens invoice generator create recurring invoices for you that take place at regular intervals.",
     },
     {
-      icon: <RxCross1 />,
-      title: "Easy Tax Invoice",
-      des: "Create, manage, send, and track tax invoices without any hassle.",
+      icon: BsCurrencyDollar,
+      title: "Insightful Reports",
+      description: "Get ready-made essential reports to analyze your business and client information.",
     },
     {
-      icon: <RxCross1 />,
-      title: "Easy Tax Invoice",
-      des: "Create, manage, send, and track tax invoices without any hassle.",
+      icon: BsCurrencyDollar,
+      title: "Easy Access Anywhere",
+      description: "Easy to use dashboard for mobile and desktop. Get email alerts in real-time.",
     },
   ];
   return (
-    <div className="">
-      <div className="py-8 bg-violet-600">
-        <div className="container mx-auto flex justify-between items-center">
-          <h4 className="text-3xl text-white font-medium">Create Online Invoices for FREE</h4>
-          <a href="#invoice" className="bg-red-600 text-white font-medium px-5 py-3 rounded">
-            Create Invoice for Free
-          </a>
-        </div>
-      </div>
-      <div className="bg-slate-900 py-20">
-        <div className="container mx-auto">
-          <h3 className="text-4xl text-white font-medium text-center">Features of invoice generator</h3>
-          <div className="text-white grid grid-cols-4 my-5">
-            {allFeatures.map((item, i) => (
-              <div key={i} className="my-5">
-                <span className=" feature-icon">{item.icon}</span>
-                <h4>{item.title}</h4>
-                <p className="text-sm text-slate-300">
-                  {item.des}
-                </p>
+    <div className="bg-slate-950 py-8 md:py-16 md:px-16 px-4 text-slate-50 flex flex-col items-center gap-8">
+      <h2 className="text-center text-2xl md:text-5xl font-semibold  mb-12">Features of Invoice Generator</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8">
+        {features.map((feature, i) => {
+          const Icon = feature.icon;
+          return (
+            <div className="mb-3" key={i}>
+              <div className="border-2 border-purple-400 rounded-lg py-4 w-14 h-14 flex items-center justify-center mb-3">
+                <Icon className="text-3xl" />
               </div>
-            ))}
-          </div>
-          <div className="w-full flex justify-center mt-8">
-            <a href="#invoice" className="bg-purple-600 text-white font-medium px-5 py-2 rounded">
-              Create Invoice for Free
-            </a>
-          </div>
-        </div>
+              <p className=" mb-3 text-xl">{feature.title}</p>
+              <p className="text-slate-400 text-sm">{feature.description}</p>
+            </div>
+          );
+        })}
       </div>
+      <ThemeLink
+        className="bg-purple-600 hover:bg-purple-700 focus:ring-purple-300"
+        name="Create Invoice for Free"
+        toLink="/invoice/new"
+      />
     </div>
   );
-};
-
-export default Features;
+}

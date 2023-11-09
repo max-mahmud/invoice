@@ -125,7 +125,7 @@ const FormTable = ({ prevData, updateTableData }) => {
                 </td>
                 <td className=" py-3 text-right">
                   <span onClick={() => removeItem(index)}>
-                    <AiOutlineCloseCircle className="text-xl text-red-600" />
+                    <AiOutlineCloseCircle className="text-xl text-red-600 cursor-pointer" />
                   </span>
                 </td>
               </tr>

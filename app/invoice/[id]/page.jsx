@@ -6,7 +6,7 @@ export default async function InvoicePage({ params: { id } }) {
   //   console.log(invoice);
 
   return (
-    <div className="pt-16">
+    <div className="pt-20">
       <Unique invoice={invoice} />
     </div>
   );

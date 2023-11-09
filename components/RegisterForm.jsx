@@ -17,9 +17,9 @@ export default function RegisterForm() {
   console.log(emailErr);
   async function onSubmit(data) {
     try {
-      //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/api/user`, {
+      const response = await fetch(`${baseUrl}/api/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

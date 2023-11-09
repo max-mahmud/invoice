@@ -33,6 +33,8 @@ const NewInvoice = () => {
   const [combineData, setCombineDate] = useState({});
   const [preview, setPreview] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [formColor, setFormColor] = useState("");
+  const colors = ["#ff793f", "#34ace0", "#a55eea", "#778ca3", "#33d9b2", "#4cd137", "#fbc531"];
   const [formData, setFormData] = useState({
     companyName: "",
     invoiceAuthor: "",
@@ -68,8 +70,9 @@ const NewInvoice = () => {
     };
 
     try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/api/invoice`, {
+      const response = await fetch(`${baseUrl}/api/invoice`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +85,7 @@ const NewInvoice = () => {
       const createdInvoice = await response.json();
       // console.log(createdInvoice,);
       setLoading(false);
-      toast.success("Invoice Created");
+      toast.success("Invoice Save");
       setPreview(!preview);
     } catch (error) {
       setLoading(false);
@@ -115,16 +118,29 @@ const NewInvoice = () => {
   }
 
   return (
-    <div className="pt-14 bg-slate-100 ">
+    <div className="pt-14 bg-slate-100 pb-8">
       <div className="min-h-screen  container mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center py-6">
+        <div className="flex justify-between items-center py-6 px-3">
           <button
             onClick={() => setPreview(!preview)}
             className="px-4 py-1 bg-slate-100 border-2 border-violet-400 shadow-md text-slate-500 hover:text-violet-400"
           >
             {preview ? "Edit Form" : "Preview"}
           </button>
+          {preview && (
+            <div className="flex gap-2">
+              {colors.map((color, i) => (
+                <span
+                  onClick={() => setFormColor(color)}
+                  style={{ backgroundColor: color }}
+                  className={`w-8 h-8 rounded-full `}
+                  key={i}
+                ></span>
+              ))}
+            </div>
+          )}
+
           <button
             onClick={handlePrint}
             className="px-4 py-1 bg-slate-100 border-2 border-violet-400 shadow-md text-slate-500 hover:text-violet-400"
@@ -135,10 +151,10 @@ const NewInvoice = () => {
         {/* Invoice Form & Preview  */}
         {preview ? (
           <div ref={componentRef}>
-            <FormPreview data={combineData} />
+            <FormPreview data={combineData} formColor={formColor} />
           </div>
         ) : (
-          <div className="pb-10">
+          <div className="">
             <form onSubmit={handleFormSubmit} className="bg-white w-[65vw]  mx-auto min-h-screen">
               <div className="flex justify-between items-center gap-10 p-8 ">
                 <div className="flex items-center justify-center w-[22%] mb-5 ">

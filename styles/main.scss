@@ -12,13 +12,23 @@ body{
   position: relative;
   min-height: 100vh;
 }
-.invoiceCta{
-  min-height: 150vh;
+.invoiceCta {
   background-image: url("../public/demo.jpg");
   width: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  position: relative;
+  }
+  
+  .invoiceCta::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(15, 15, 15, 0.514);
 }
 .feature-icon svg{
   background-color: rgb(4, 163, 71);

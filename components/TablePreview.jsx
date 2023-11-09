@@ -1,6 +1,6 @@
 import React from "react";
 
-const TablePreview = ({ tableData }) => {
+const TablePreview = ({ tableData, formColor }) => {
   const totalSum =
     tableData?.reduce((sum, row) => {
       const amount = parseFloat(row.amount);
@@ -13,7 +13,10 @@ const TablePreview = ({ tableData }) => {
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead
+          style={{ backgroundColor: formColor }}
+          className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
           <tr>
             <th scope="col" className="px-6 py-3">
               Item Description
@@ -30,26 +33,30 @@ const TablePreview = ({ tableData }) => {
             <th scope="col" className="px-6 py-3">
               Amount
             </th>
-            <th scope="col" className="px-6 py-3">
+            {/* <th scope="col" className="px-6 py-3">
               <span className="sr-only">Edit</span>
-            </th>
+            </th> */}
           </tr>
         </thead>
         <tbody>
           {tableData?.map((row, i) => {
             const { itemDescription, qty, unitPrice, tax, amount } = row;
             return (
-              <tr key={i} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th
+              <tr
+                style={{ backgroundColor: `${i % 2 !== 0 ? formColor : "#fff"}44` }}
+                key={i}
+                className="bg-white border-b border-slate-300"
+              >
+                <td
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {itemDescription}
-                </th>
-                <td className="px-6 py-4">{qty}</td>
-                <td className="px-6 py-4">${unitPrice}</td>
-                <td className="px-6 py-4">{tax}</td>
-                <td className="px-6 py-4 text-base font-bold">${amount}</td>
+                </td>
+                <td className="px-6 py-2">{qty}</td>
+                <td className="px-6 py-2">${unitPrice}</td>
+                <td className="px-6 py-2">{tax}</td>
+                <td className="px-6 py-2 text-base font-bold">${amount}</td>
               </tr>
             );
           })}

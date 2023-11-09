@@ -1,7 +1,8 @@
 import TablePreview from "./TablePreview";
 import { CldImage } from "next-cloudinary";
 
-const FormPreview = ({ data }) => {
+const FormPreview = ({ data, formColor }) => {
+  const colors = ["green", "sky", "orange", "violet", "slate"];
   const {
     companyName,
     invoiceAuthor,
@@ -26,7 +27,7 @@ const FormPreview = ({ data }) => {
   const newInvoiceDueDate = new Date(invoiceDueDate).toLocaleDateString(undefined, options);
 
   return (
-    <div className="w-full max-w-4xl min-h-screen p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 mx-auto">
+    <div className="w-full max-w-4xl   min-h-screen p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 mx-auto">
       {/* Image & Invoice Label */}
       <div className="flex justify-between items-center">
         {/* Image */}
@@ -37,7 +38,9 @@ const FormPreview = ({ data }) => {
           )}
         </div>
 
-        <h2 className="text-4xl uppercase font-semibold">Invoice</h2>
+        <h2 style={{ color: formColor }} className="text-4xl text-slate-800 uppercase font-semibold">
+          Invoice
+        </h2>
       </div>
       {/* Company Details */}
       <div className="flex flex-col w-1/2 mt-6">
@@ -86,23 +89,23 @@ const FormPreview = ({ data }) => {
             <p className=" tex-base">{clientCountry}</p>
           </div>
         </div>
-        <div className="flex flex-col w-1/2 mt-6">
+        <div className="flex flex-col w-1/2 mt-12">
           <div className="flex gap-2">
-            <p className="text-slate-500 font-bold">Invoice #</p>
+            <p className="text-slate-700 font-bold">Invoice #</p>
             <p>{invoiceNumber}</p>
           </div>
           <div className="flex gap-2">
-            <p className="text-slate-500 font-bold">Invoice Date</p>
+            <p className="text-slate-700 font-bold">Invoice Date</p>
             <p>{newInvoiceDate}</p>
           </div>
           <div className="flex gap-2">
-            <p className="text-slate-500 font-bold">Invoice Due Date</p>
+            <p className="text-slate-700 font-bold">Invoice Due Date</p>
             <p>{newInvoiceDueDate}</p>
           </div>
         </div>
       </div>
       {/* TABLE */}
-      <TablePreview tableData={tableData} />
+      <TablePreview formColor={formColor} tableData={tableData} />
       <div className="flex flex-col w-full my-6">
         <p className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</p>
         <p>{notes}</p>
@@ -112,7 +115,7 @@ const FormPreview = ({ data }) => {
         <p>{terms}</p>
       </div>
 
-      <div className="mt-12 flex justify-end">
+      <div className="mt-12 flex justify-end ">
         <h2 className="text-sm">
           Powered by{" "}
           <a className="font-bold text-pink-600" href="#">

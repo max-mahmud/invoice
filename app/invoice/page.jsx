@@ -2,9 +2,25 @@ import ThemeLink from "@/components/ThemeLink";
 import React from "react";
 import { getInvoices } from "../libs/getInvoices";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../libs/authOptions";
 
 export default async function Page() {
-  const invoices = await getInvoices();
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return (
+      <div className="gap-8 flex items-center h-screen justify-center flex-col">
+        <h2 className="md:text-4xl text-2xl">Please Login to be able to view your Invoices</h2>
+        <ThemeLink
+          className="bg-rose-600 hover:bg-rose-700 focus:ring-rose-300"
+          name="Click here to Login to your Account"
+          toLink="/login"
+        />
+      </div>
+    );
+  }
+  const userId = session?.user?.email;
+  const invoices = await getInvoices(userId);
 
   return (
     <div className="pt-16">
