@@ -155,9 +155,12 @@ const NewInvoice = () => {
           </div>
         ) : (
           <div className="">
-            <form onSubmit={handleFormSubmit} className="bg-white w-[65vw]  mx-auto min-h-screen">
+            <form
+              onSubmit={handleFormSubmit}
+              className="bg-white w-full max-w-4xl shadow-md  mx-auto min-h-screen"
+            >
               <div className="flex justify-between items-center gap-10 p-8 ">
-                <div className="flex items-center justify-center w-[22%] mb-5 ">
+                <div className="flex items-center justify-center md:w-[22%] w-[28%] mb-3 ">
                   {logoUrl ? (
                     <CldImage width="240" height="240" src={logoUrl} alt="Description of my image" />
                   ) : (
@@ -181,7 +184,7 @@ const NewInvoice = () => {
                   )}
                 </div>
                 <div>
-                  <h3 className="text-5xl upperCase font-medium">Invoice</h3>
+                  <h3 className="text-5xl uppercase font-medium">Invoice</h3>
                 </div>
               </div>
               {/* Company Details */}

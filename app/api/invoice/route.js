@@ -6,7 +6,7 @@ export async function POST(request) {
     const { invoiceData, tableData } = await request.json();
     // console.log(invoiceData, "from api");
     //2) Create invoice using the invoice data
-    console.log(invoiceData.userId);
+    // console.log(invoiceData.userId);
     const invoice = await db.invoice.create({
       data: {
         userId: invoiceData.userId,
@@ -57,7 +57,7 @@ export async function POST(request) {
 export async function GET(request, { searchParams }) {
   try {
     const userId = request.nextUrl.searchParams.get("userId");
-    console.log(`The userId is${userId}`);
+    // console.log(`The userId is${userId}`);
     const invoices = await db.invoice.findMany({
       include: {
         tableData: true,

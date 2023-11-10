@@ -91,7 +91,7 @@ export default function Navbar() {
           {status === "authenticated" && <a href="/invoice">View Invoices</a>}
         </nav>
         {status === "authenticated" ? (
-          <div className="lg:hidden flex items-center gap-4">
+          <div className="lg:hidden flex justify-center items-center gap-4">
             {/* <div className="flex items-center space-x-4">
               <div className=" relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full ">
                 <span className="font-medium text-gray-600 ">{initials}</span>

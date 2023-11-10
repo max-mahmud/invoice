@@ -8,7 +8,7 @@ const InvoiceCTA = () => {
       id="invoice"
     >
       <div className="w-full  h-full flex justify-center items-center">
-        <div className="bg-white shadow-lg py-5 md:py-10 px-2 z-50  w-[250px] md:w-[320px] flex justify-center items-center rounded-md">
+        <div className="bg-white shadow-lg py-5 md:py-10 px-2 z-20  w-[250px] md:w-[320px] flex justify-center items-center rounded-md">
           <Link
             href={"/invoice/new"}
             className="px-4 py-2 font-medium md:text-lg rounded-md bg-pink-600 text-white"
